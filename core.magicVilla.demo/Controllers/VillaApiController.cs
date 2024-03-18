@@ -4,11 +4,11 @@ using core.magicVilla.demo.Models.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace core.magicVilla.demo.Controllers
 {
     //[Route("api/[controller]")]
@@ -16,6 +16,12 @@ namespace core.magicVilla.demo.Controllers
     //[ApiController]
     public class VillaApiController : ControllerBase
     {
+        private readonly ILogger<VillaApiController> _logger;
+
+        public VillaApiController (ILogger<VillaApiController> logger)
+        {
+            _logger = logger;
+        }
         [HttpGet]
         public ActionResult<IEnumerable<VillaDTO>> GetVillas()
         {
@@ -27,6 +33,7 @@ namespace core.magicVilla.demo.Controllers
         {
             if (id == 0)
             {
+                _logger.LogError("Get Villa Error with id" + id);
                 return BadRequest();
             }
 
